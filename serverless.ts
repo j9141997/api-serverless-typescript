@@ -8,10 +8,12 @@ const serverlessConfiguration: AWS = {
       webpackConfig: './webpack.config.js',
       includeModules: true
     },
-    functionsBasePath: 'src/handlers'
+    'serverless-offline': {
+      httpPort: 8080
+    }
   },
   // Add the serverless-webpack plugin
-  plugins: ['serverless-webpack'],
+  plugins: ['serverless-webpack', 'serverless-offline'],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
@@ -23,28 +25,17 @@ const serverlessConfiguration: AWS = {
     },
   },
   functions: {
-    health: {
-      handler: 'options.healthCheck',
+    hello: {
+      handler: 'handler.hello',
       events: [
         {
           http: {
             method: 'get',
-            path: 'hello'
+            path: 'hello',
           }
         }
       ]
     }
-    // hello: {
-    //   handler: 'handler.hello',
-    //   events: [
-    //     {
-    //       http: {
-    //         method: 'get',
-    //         path: 'hello',
-    //       }
-    //     }
-    //   ]
-    // }
   }
 }
 
