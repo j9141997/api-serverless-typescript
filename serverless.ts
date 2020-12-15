@@ -7,7 +7,8 @@ const serverlessConfiguration: AWS = {
     webpack: {
       webpackConfig: './webpack.config.js',
       includeModules: true
-    }
+    },
+    functionsBasePath: 'src/handlers'
   },
   // Add the serverless-webpack plugin
   plugins: ['serverless-webpack'],
@@ -22,17 +23,28 @@ const serverlessConfiguration: AWS = {
     },
   },
   functions: {
-    hello: {
-      handler: 'handler.hello',
+    health: {
+      handler: 'options.healthCheck',
       events: [
         {
           http: {
             method: 'get',
-            path: 'hello',
+            path: 'hello'
           }
         }
       ]
     }
+    // hello: {
+    //   handler: 'handler.hello',
+    //   events: [
+    //     {
+    //       http: {
+    //         method: 'get',
+    //         path: 'hello',
+    //       }
+    //     }
+    //   ]
+    // }
   }
 }
 
