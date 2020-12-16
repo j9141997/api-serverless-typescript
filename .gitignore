@@ -10,3 +10,5 @@ jspm_packages
 
 # git directories
 .git
+
+.dynamodb
