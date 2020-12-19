@@ -1,4 +1,5 @@
 import type { AWS } from '@serverless/typescript';
+import options from './dynamodb/migrations/options';
 
 const serverlessConfiguration: AWS = {
   service: 'my-api',
@@ -11,9 +12,33 @@ const serverlessConfiguration: AWS = {
     'serverless-offline': {
       httpPort: 8080,
     },
+    dynamodb: {
+      stages: ['dev'],
+      start: {
+        port: 8000,
+        inMemory: true,
+        migrate: true,
+        seed: true,
+        sharedDB: true,
+      },
+      seed: {
+        dev: {
+          sources: [
+            {
+              table: 'options',
+              sources: ['./dynamodb/seeds/options.json'],
+            },
+          ],
+        },
+      },
+    },
   },
-  // Add the serverless-webpack plugin
-  plugins: ['serverless-webpack', 'serverless-offline'],
+  resources: {
+    Resources: {
+      optionsTables: options,
+    },
+  },
+  plugins: ['serverless-webpack', 'serverless-offline', 'serverless-dynamodb-local'],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
