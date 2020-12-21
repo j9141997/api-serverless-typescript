@@ -72,6 +72,17 @@ const serverlessConfiguration: AWS = {
         },
       ],
     },
+    getOption: {
+      handler: 'handler.getOption',
+      events: [
+        {
+          http: {
+            method: 'get',
+            path: 'options/{uuid}',
+          },
+        },
+      ],
+    },
   },
 };
 

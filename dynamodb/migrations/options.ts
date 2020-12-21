@@ -7,19 +7,11 @@ export default {
         AttributeName: 'uuid',
         AttributeType: 'S',
       },
-      {
-        AttributeName: 'title',
-        AttributeType: 'S',
-      },
     ],
     KeySchema: [
       {
         AttributeName: 'uuid',
         KeyType: 'HASH',
-      },
-      {
-        AttributeName: 'title',
-        KeyType: 'RANGE',
       },
     ],
     BillingMode: 'PAY_PER_REQUEST',
