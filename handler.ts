@@ -1,5 +1,8 @@
-import { APIGatewayProxyHandler } from 'aws-lambda';
+import { APIGatewayProxyHandler, Handler } from 'aws-lambda';
 import 'source-map-support/register';
+import OptionsController from './src/controllers/optionsController';
+
+const optionsController = new OptionsController();
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export const hello: APIGatewayProxyHandler = async (event, _context) => {
@@ -14,4 +17,8 @@ export const hello: APIGatewayProxyHandler = async (event, _context) => {
       2,
     ),
   };
+};
+
+export const getOptions: Handler = async (_event, _context) => {
+  return optionsController.index();
 };
