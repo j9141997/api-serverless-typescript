@@ -1,4 +1,3 @@
-'use strict';
 import AWS from 'aws-sdk';
 
 let options = {};
@@ -11,4 +10,4 @@ if (process.env.IS_OFFLINE) {
 
 const client = new AWS.DynamoDB.DocumentClient(options);
 
-module.exports = client;
+export default client;
