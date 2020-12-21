@@ -19,6 +19,10 @@ export const hello: APIGatewayProxyHandler = async (event, _context) => {
   };
 };
 
-export const getOptions: Handler = async (_event, _context) => {
+export const getOptions: APIGatewayProxyHandler = async (_event, _context) => {
   return optionsController.index();
+};
+
+export const getOption: APIGatewayProxyHandler = async (event, _context) => {
+  return optionsController.show(event);
 };
