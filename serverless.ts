@@ -83,6 +83,17 @@ const serverlessConfiguration: AWS = {
         },
       ],
     },
+    createOption: {
+      handler: 'handler.createOption',
+      events: [
+        {
+          http: {
+            method: 'post',
+            path: 'options',
+          },
+        },
+      ],
+    },
   },
 };
 
