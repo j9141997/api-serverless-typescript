@@ -1,6 +1,7 @@
 import { APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda';
 import { v4 as uuidv4 } from 'uuid';
 import Option from '../models/option';
+import errorHandler from '../middlewares/error';
 class OptionsController extends Option {
   async index(): Promise<APIGatewayProxyResult> {
     const response = await this.find({
