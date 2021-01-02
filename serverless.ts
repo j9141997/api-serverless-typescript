@@ -5,6 +5,7 @@ const serverlessConfiguration: AWS = {
   service: 'my-api',
   frameworkVersion: '2',
   custom: {
+    defaultStage: 'dev',
     webpack: {
       webpackConfig: './webpack.config.js',
       includeModules: true,
@@ -42,12 +43,26 @@ const serverlessConfiguration: AWS = {
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
+    region: 'ap-northeast-1',
     apiGateway: {
       minimumCompressionSize: 1024,
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
     },
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: [
+          'dynamodb:Query',
+          'dynamodb:Scan',
+          'dynamodb:GetItem',
+          'dynamodb:PutItem',
+          'dynamodb:UpdateItem',
+          'dynamodb:DeleteItem',
+        ],
+      },
+    ],
   },
   functions: {
     hello: {
