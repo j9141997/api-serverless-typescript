@@ -61,6 +61,7 @@ const serverlessConfiguration: AWS = {
           'dynamodb:UpdateItem',
           'dynamodb:DeleteItem',
         ],
+        Resource: 'arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/options',
       },
     ],
   },
