@@ -20,6 +20,7 @@ export const hello: APIGatewayProxyHandler = async (event, _context) => {
 };
 
 export const getOptions: APIGatewayProxyHandler = async (_event, _context) => {
+  console.log(_context);
   return optionsController.index();
 };
 
