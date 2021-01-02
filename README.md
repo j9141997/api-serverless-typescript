@@ -6,3 +6,9 @@
   npm run format:prettier
   nom run typecheck
 ```
+
+## Deploy
+
+```bash
+serverless deploy
+```
