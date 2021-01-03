@@ -84,6 +84,7 @@ const serverlessConfiguration: AWS = {
           http: {
             method: 'get',
             path: 'options',
+            cors: true,
           },
         },
       ],
@@ -95,6 +96,7 @@ const serverlessConfiguration: AWS = {
           http: {
             method: 'get',
             path: 'options/{uuid}',
+            cors: true,
           },
         },
       ],
@@ -106,6 +108,7 @@ const serverlessConfiguration: AWS = {
           http: {
             method: 'post',
             path: 'options',
+            cors: true,
           },
         },
       ],

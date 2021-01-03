@@ -1,58 +1,71 @@
 import dynamodb from '../dynamodb';
-import { Get, Put, GetItemOutput } from 'aws-sdk/clients/dynamodb';
+import { GetItemOutput } from 'aws-sdk/clients/dynamodb';
+import { ResponseUtil, Response } from '../utils/response';
 
 type Output = {
   statusCode: number;
   body: string;
 };
 
+type CreateInput = {
+  Item: {
+    uuid: string;
+    title: string;
+    createdAt: number;
+    updatedAt: number;
+  };
+};
+
 class Option {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  protected async find(params: Get): Promise<(GetItemOutput & Output) | any> {
+  defaultParams = {
+    TableName: 'options',
+  };
+
+  protected async find(): Promise<(GetItemOutput & Output) | any> {
     try {
-      const result = await dynamodb.scan(params).promise();
+      const result = await dynamodb.scan(this.defaultParams).promise();
       const data = {
         options: result.Items,
       };
-      return {
-        statusCode: 200,
-        body: JSON.stringify(data),
-      };
+      return ResponseUtil.success(data);
     } catch (error) {
       return console.error(error);
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  protected async findOne(params: Get): Promise<(GetItemOutput & Output) | any> {
+  protected async findOne(uuid: string): Promise<(GetItemOutput & Output) | any> {
     try {
+      const params = {
+        ...this.defaultParams,
+        Key: {
+          uuid: uuid,
+        },
+      };
       const result = await dynamodb.get(params).promise();
       const data = {
         option: result.Item,
       };
-      return {
-        statusCode: 200,
-        body: JSON.stringify(data),
-      };
+      return ResponseUtil.success(data);
     } catch (error) {
       return console.error(error);
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  protected async createOption(params: Put): Promise<any> {
+  protected async createOption(data: CreateInput): Promise<Response | null> {
+    const params = {
+      ...this.defaultParams,
+      ...data,
+    };
     try {
       const result = await dynamodb.put(params).promise();
       console.log(result);
       const data = {
         message: 'Successfully created item',
       };
-      return {
-        statusCode: 201,
-        body: JSON.stringify(data),
-      };
+      return ResponseUtil.success(data);
     } catch (error) {
-      return console.error(error);
+      console.error(error);
+      return null;
     }
   }
 }
