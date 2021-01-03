@@ -32,6 +32,22 @@ class OptionsController extends Option {
       },
     });
   }
+
+  async update(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+    const timestamp = new Date().getTime();
+    const { title } = JSON.parse(event.body);
+    const uuid = event.pathParameters.uuid;
+    if (!title) {
+      console.error('validation failed');
+      return {
+        statusCode: 400,
+        headers: { 'Content-Type': 'text/plain' },
+        body: "Couldn't create the item.",
+      };
+    }
+
+    return await this.updateOption(uuid, { title, updatedAt: timestamp });
+  }
 }
 
 export default OptionsController;

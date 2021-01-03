@@ -7,7 +7,7 @@ type Output = {
   body: string;
 };
 
-type CreateInput = {
+type Input = {
   Item: {
     uuid: string;
     title: string;
@@ -51,13 +51,42 @@ class Option {
     }
   }
 
-  protected async createOption(data: CreateInput): Promise<Response | null> {
+  protected async createOption(data: Input): Promise<Response | null> {
     const params = {
       ...this.defaultParams,
       ...data,
     };
     try {
       const result = await dynamodb.put(params).promise();
+      console.log(result);
+      const data = {
+        message: 'Successfully created item',
+      };
+      return ResponseUtil.success(data);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  protected async updateOption(uuid: string, data: any): Promise<Response | null> {
+    const params = {
+      ...this.defaultParams,
+      Key: {
+        uuid: uuid,
+      },
+      ExpressionAttributeNames: {
+        '#t': 'title',
+        '#u': 'updatedAt',
+      },
+      ExpressionAttributeValues: {
+        ':newTitle': data.title,
+        ':newUpdatedAt': data.updatedAt,
+      },
+      UpdateExpression: 'SET #t = :newTitle, #u = :newUpdatedAt',
+    };
+    try {
+      const result = await dynamodb.update(params).promise();
       console.log(result);
       const data = {
         message: 'Successfully created item',

@@ -113,6 +113,18 @@ const serverlessConfiguration: AWS = {
         },
       ],
     },
+    updateOption: {
+      handler: 'handler.updateOption',
+      events: [
+        {
+          http: {
+            method: 'put',
+            path: 'options/{uuid}',
+            cors: true,
+          },
+        },
+      ],
+    },
   },
 };
 
