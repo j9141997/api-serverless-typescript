@@ -27,6 +27,7 @@ class OptionsController extends Option {
       Item: {
         uuid: uuidv4(),
         title: data.title,
+        options: data.options,
         createdAt: timestamp,
         updatedAt: timestamp,
       },

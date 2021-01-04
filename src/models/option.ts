@@ -11,6 +11,11 @@ type Input = {
   Item: {
     uuid: string;
     title: string;
+    options: {
+      name: string;
+      merits: string[];
+      demerits: string[];
+    };
     createdAt: number;
     updatedAt: number;
   };
