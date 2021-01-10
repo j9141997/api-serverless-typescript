@@ -49,6 +49,12 @@ class OptionsController extends Option {
 
     return await this.updateOption(uuid, { title, updatedAt: timestamp });
   }
+
+  async remove(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+    const { uuid } = event.pathParameters;
+
+    return await this.removeOption(uuid);
+  }
 }
 
 export default OptionsController;
