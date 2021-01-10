@@ -1,11 +1,5 @@
 import dynamodb from '../dynamodb';
-import { GetItemOutput } from 'aws-sdk/clients/dynamodb';
 import { ResponseUtil, Response } from '../utils/response';
-
-type Output = {
-  statusCode: number;
-  body: string;
-};
 
 type Input = {
   Item: {
@@ -26,7 +20,7 @@ class Option {
     TableName: 'options',
   };
 
-  protected async find(): Promise<(GetItemOutput & Output) | any> {
+  protected async find(): Promise<Response | null> {
     try {
       const result = await dynamodb.scan(this.defaultParams).promise();
       const data = {
@@ -34,11 +28,12 @@ class Option {
       };
       return ResponseUtil.success(data);
     } catch (error) {
-      return console.error(error);
+      console.error(error);
+      return null;
     }
   }
 
-  protected async findOne(uuid: string): Promise<(GetItemOutput & Output) | any> {
+  protected async findOne(uuid: string): Promise<Response | null> {
     try {
       const params = {
         ...this.defaultParams,
@@ -52,7 +47,8 @@ class Option {
       };
       return ResponseUtil.success(data);
     } catch (error) {
-      return console.error(error);
+      console.error(error);
+      return null;
     }
   }
 
