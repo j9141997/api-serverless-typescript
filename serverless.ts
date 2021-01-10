@@ -125,6 +125,18 @@ const serverlessConfiguration: AWS = {
         },
       ],
     },
+    removeOption: {
+      handler: 'handler.removeOption',
+      events: [
+        {
+          http: {
+            method: 'delete',
+            path: 'options/{uuid}',
+            cors: true,
+          },
+        },
+      ],
+    },
   },
 };
 

@@ -35,3 +35,7 @@ export const createOption: APIGatewayProxyHandler = async (event, _context) => {
 export const updateOption: APIGatewayProxyHandler = async (event, _context) => {
   return optionsController.update(event);
 };
+
+export const removeOption: APIGatewayProxyHandler = async (event, _context) => {
+  return optionsController.remove(event);
+};
