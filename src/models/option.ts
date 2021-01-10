@@ -5,6 +5,7 @@ type Input = {
   Item: {
     uuid: string;
     title: string;
+    category: string;
     options: {
       name: string;
       merits: string[];
@@ -21,8 +22,12 @@ class Option {
   };
 
   protected async find(): Promise<Response | null> {
+    const params = {
+      Limit: 20,
+      ...this.defaultParams,
+    };
     try {
-      const result = await dynamodb.scan(this.defaultParams).promise();
+      const result = await dynamodb.scan(params).promise();
       const data = {
         options: result.Items,
       };
@@ -79,13 +84,17 @@ class Option {
       },
       ExpressionAttributeNames: {
         '#t': 'title',
+        '#c': 'category',
+        '#os': 'options',
         '#u': 'updatedAt',
       },
       ExpressionAttributeValues: {
         ':newTitle': data.title,
+        ':newCategory': data.category,
+        ':newOptions': data.options,
         ':newUpdatedAt': data.updatedAt,
       },
-      UpdateExpression: 'SET #t = :newTitle, #u = :newUpdatedAt',
+      UpdateExpression: 'SET #t = :newTitle, #c = :newCategory, #os = :newOptions, #u = :newUpdatedAt',
     };
     try {
       const result = await dynamodb.update(params).promise();

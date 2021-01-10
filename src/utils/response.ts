@@ -46,9 +46,4 @@ export class ResponseUtil {
     const result = new Result(StatusCode.success, 'success', data);
     return result.bodyToString();
   }
-
-  // static error(error: Error: Response {
-  //   const result = new Result(error)
-  //   return result.bodyToString();
-  // }
 }

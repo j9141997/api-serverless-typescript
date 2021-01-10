@@ -28,6 +28,7 @@ class OptionsController extends Option {
         uuid: uuidv4(),
         title: data.title,
         options: data.options,
+        category: data.category,
         createdAt: timestamp,
         updatedAt: timestamp,
       },
@@ -36,7 +37,7 @@ class OptionsController extends Option {
 
   async update(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
     const timestamp = new Date().getTime();
-    const { title } = JSON.parse(event.body);
+    const { title, category, options } = JSON.parse(event.body);
     const uuid = event.pathParameters.uuid;
     if (!title) {
       console.error('validation failed');
@@ -47,7 +48,7 @@ class OptionsController extends Option {
       };
     }
 
-    return await this.updateOption(uuid, { title, updatedAt: timestamp });
+    return await this.updateOption(uuid, { title, category, options, updatedAt: timestamp });
   }
 
   async remove(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
