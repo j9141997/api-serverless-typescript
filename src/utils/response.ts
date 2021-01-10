@@ -1,5 +1,9 @@
 enum StatusCode {
   success = 200,
+  ok = 200,
+  created = 201,
+  notFound = 404,
+  badRequest = 400,
 }
 
 export type Response = {

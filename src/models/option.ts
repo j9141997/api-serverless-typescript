@@ -1,16 +1,11 @@
 import dynamodb from '../dynamodb';
-import { GetItemOutput } from 'aws-sdk/clients/dynamodb';
 import { ResponseUtil, Response } from '../utils/response';
-
-type Output = {
-  statusCode: number;
-  body: string;
-};
 
 type Input = {
   Item: {
     uuid: string;
     title: string;
+    category: string;
     options: {
       name: string;
       merits: string[];
@@ -26,19 +21,24 @@ class Option {
     TableName: 'options',
   };
 
-  protected async find(): Promise<(GetItemOutput & Output) | any> {
+  protected async find(): Promise<Response | null> {
+    const params = {
+      Limit: 20,
+      ...this.defaultParams,
+    };
     try {
-      const result = await dynamodb.scan(this.defaultParams).promise();
+      const result = await dynamodb.scan(params).promise();
       const data = {
         options: result.Items,
       };
       return ResponseUtil.success(data);
     } catch (error) {
-      return console.error(error);
+      console.error(error);
+      return null;
     }
   }
 
-  protected async findOne(uuid: string): Promise<(GetItemOutput & Output) | any> {
+  protected async findOne(uuid: string): Promise<Response | null> {
     try {
       const params = {
         ...this.defaultParams,
@@ -52,7 +52,8 @@ class Option {
       };
       return ResponseUtil.success(data);
     } catch (error) {
-      return console.error(error);
+      console.error(error);
+      return null;
     }
   }
 
@@ -83,13 +84,17 @@ class Option {
       },
       ExpressionAttributeNames: {
         '#t': 'title',
+        '#c': 'category',
+        '#os': 'options',
         '#u': 'updatedAt',
       },
       ExpressionAttributeValues: {
         ':newTitle': data.title,
+        ':newCategory': data.category,
+        ':newOptions': data.options,
         ':newUpdatedAt': data.updatedAt,
       },
-      UpdateExpression: 'SET #t = :newTitle, #u = :newUpdatedAt',
+      UpdateExpression: 'SET #t = :newTitle, #c = :newCategory, #os = :newOptions, #u = :newUpdatedAt',
     };
     try {
       const result = await dynamodb.update(params).promise();
