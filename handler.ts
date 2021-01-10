@@ -1,4 +1,4 @@
-import { APIGatewayProxyHandler, Handler } from 'aws-lambda';
+import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
 import OptionsController from './src/controllers/optionsController';
 
