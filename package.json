@@ -8,9 +8,11 @@
     "lint:eslint": "eslint . --ext js,ts --cache --fix",
     "lint:prettier": "prettier --list-different './**/*.{js,ts}'",
     "format:prettier": "prettier . --write",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "g:app": "redoc-cli bundle reference/app.v1.yaml --output app.html"
   },
   "dependencies": {
+    "redoc-cli": "^0.10.2",
     "source-map-support": "^0.5.19",
     "uuid": "^8.3.2"
   },
